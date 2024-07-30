@@ -1,0 +1,82 @@
+﻿@model IEnumerable<INventory_Project1.Models.Currency>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-2 justify-content-end">
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </p>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currencies)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExchangeRate)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currencies.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExchangeRate)
+            </td>
+            <td>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-eye" aria-hidden="true">Detail</i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                            </span>
+                        </a>
+
+                    </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

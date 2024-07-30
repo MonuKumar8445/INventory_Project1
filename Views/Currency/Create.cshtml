@@ -1,0 +1,56 @@
+﻿@model INventory_Project1.Models.Currency
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<h4>Currency - Create</h4>
+<hr />
+<div class="card-header bg-success text-uppercase text-white text-center" style="height:40px;">
+    <h5>Currency - Create</h5>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExchangeCurrencyId" class="control-label"></label>
+                <select asp-for="ExchangeCurrencyId" class ="form-control" asp-items="ViewBag.ExchangeCurrencyId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExchangeRate" class="control-label"></label>
+                <input asp-for="ExchangeRate" class="form-control" />
+                <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+            </div>
+            <div class="form-group btn-group col-10">
+                <div class="col-1"></div>
+
+                <div class="col-5">
+                    <input type="submit" value="Save" class="btn btn-primary  btn-block" />
+                </div>
+                <div class="col-5">
+                    <a class="btn btn-secondary btn-block" asp-action="index" asp-route-pg="@TempData.Peek("CurrentPage")">Back</a>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

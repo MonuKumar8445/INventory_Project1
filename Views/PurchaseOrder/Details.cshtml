@@ -1,0 +1,120 @@
+﻿@model INventory_Project1.Models.PoHeader
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="col-11 mx-auto  pt-0 p-0">
+    <div class="card">
+        <div class="card-header bg-success text-uppercase text-white text-center" style="height:40px;">
+            <h5>Prouct - Create</h5>
+        </div>
+        <form class="d-grid" enctype="multipart/form-data" style=" padding: 20px; border: 15px solid green; border-radius:5px;">
+            <div class="btn-group">
+                <div class="col-12">
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group col-sm-6">
+                            <label asp-for="PoNumber" class="control-label" ></label>
+                            <input asp-for="PoNumber" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="PoDate" class="control-label"></label>
+                            <input asp-for="PoDate" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="SupplierId" class="control-label"></label>
+                            <select asp-for="SupplierId" class="form-control form-control-plaintext" readonly asp-items="ViewBag.SupplierId"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="BaseCurrencyId" class="control-label"></label>
+                            <select asp-for="BaseCurrencyId" class="form-control form-control-plaintext" readonly  asp-items="ViewBag.CurrencyList"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="PoCurrencyId" class="control-label"></label>
+                            <select asp-for="PoCurrencyId" class="form-control form-control-plaintext" readonly asp-items="ViewBag.CurrencyList"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="ExchangeRate" class="control-label"></label>
+                            <input asp-for="ExchangeRate" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="DiscountPercent" class="control-label"></label>
+                            <input asp-for="DiscountPercent" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="QuotationNo" class="control-label"></label>
+                            <input asp-for="QuotationNo" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="QuotationDate" class="control-label"></label>
+                            <input asp-for="QuotationDate" class="form-control form-control-plaintext" readonly />
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="PaymentTerms" class="control-label"></label>
+                            <input asp-for="PaymentTerms" class="form-control form-control-plaintext" readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Code</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>FOB</th>
+                            <th>PrcInBaseCur</th>
+                            <th>UnitName</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < Model.PoDetails.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <select asp-for="@Model.PoDetails[i].ProductCode" asp-items="ViewBag.ProductList" class="form-control form-control-plaintext" readonly></select>
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].Description" class="form-control form-control-plaintext" readonly />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].Quantity" class="form-control form-control-plaintext" readonly />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].FOB" class="form-control form-control-plaintext" readonly />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control form-control-plaintext PriceTotal" readonly />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].UnitName" class="form-control" readonly />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="hdnLastIndex" value="1" />
+            </div>
+            <div class="form-group btn-group col-12 ">
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <a asp-action="Edit" class="btn btn-secondary btn-block" asp-route-pg="@TempData.Peek("CurrentPage")">Edit</a>
+                </div>
+                <div class="col-5">
+                    <a asp-action="Edit" class="btn btn-secondary btn-block" asp-route-pg="@TempData.Peek("CurrentPage")">Back</a>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} 

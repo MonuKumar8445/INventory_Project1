@@ -1,0 +1,414 @@
+﻿@model INventory_Project1.Models.PoHeader
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card">
+        <div class="card-header bg-success text-uppercase text-white text-center" style="height:40px;">
+            <h5>Prouct - Create</h5>
+        </div>
+   <form id="CodeByForm" asp-action="Create" class="d-grid" enctype="multipart/form-data" style=" padding: 25px; border: 15px solid green; border-radius:5px;">
+       <div class="btn-group col-12">
+     
+          <!-- Validation Summary -->
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  
+           <!-- First set of form elements -->
+           <div class="row col-11 ml-2">
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="PoNumber" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                        <input asp-for="PoNumber" class="form-control" />
+                        <span asp-validation-for="PoNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2"></div>
+
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="SupplierId" class="control-label"></label>
+                    </div>
+                <div class="form-group col-3">
+                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                        <span asp-validation-for="SupplierId" class="text-danger"></span>
+                </div>
+           
+                <!-- Second set of form elements -->
+
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="PoCurrency" class="control-label"></label>
+                    </div>
+                <div class="form-group col-3">
+                        <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.CurrencyList" onclick="getExRate(this);"></select>
+                        <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2"></div>
+
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="ExchangeRate" class="control-label"></label>
+                    </div>
+                <div class="form-group col-3">
+                        <input asp-for="ExchangeRate" class="form-control" readonly id="txtexchanRate" />
+                        <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                </div>
+               
+                    <!-- Third set of form elements -->
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="QuotationDate" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                        <input asp-for="QuotationDate" class="form-control" />
+                        <span asp-validation-for="QuotationDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2"></div>
+
+                <div class="form-group col-2" style=" font-weight: bold">
+                        <label asp-for="QuotationNo" class="control-label"></label>
+                    </div>
+                <div class="form-group col-3">
+                        <input asp-for="QuotationNo" class="form-control" />
+                        <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                </div>
+
+           </div>
+       </div>
+   
+            <div class="col-12">
+                <table class="table table-sm CodesTable border ExpTable " id="ExpTable" >
+                    <thead>
+                        <tr>
+                            <th>Product Code</th>
+                            <th>Description</th>   
+                            <th>Quantity</th>
+                            <th>FOB</th>
+                            <th>PrcInBaseCur</th>
+                            <th>UnitName</th>
+                            <th>Total</th>
+
+                            <th style="width:75px;">
+                                <button id='MyvalueaddExperience' type="button" class="btn  btn-sm  btn-secondary visible"
+                                        onclick="AddItem(this)">
+                                    Add
+                                </button>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < Model.PoDetails.Count; i++)
+                        {
+                            <tr>
+                                <td>
+@*                                     <input asp-for="@Model.PoDetails[i].ProductCode" class="form-control" />
+                            *@           <select asp-for="@Model.PoDetails[i].ProductCode" asp-items="ViewBag.ProductList" class="form-control" id="ProductDes" ></select>
+
+                                </td>
+
+                                <td>
+                                <input asp-for="@Model.PoDetails[i].Description" class="form-control form-control-plaitext"  onclick="getProductDesc(this);"  readonly />
+
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].Quantity" class="form-control QtyTotal" />
+@*                                     <span asp-validation-for="@Model.PoDetails[i].Quantity" class="text-danger"></span>
+ *@
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].FOB" class="form-control FobTotal" />
+@*                                     <span asp-validation-for="@Model.PoDetails[i].FOB" class="text-danger"></span>
+ *@                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control form-control-plaintext PriceTotal" readonly />
+@*                                     <span asp-validation-for="@Model.PoDetails[i].PrcInBaseCur" class="text-danger"></span>
+ *@                                </td>
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].UnitName" class="form-control" />
+@*                                     <span asp-validation-for="@Model.PoDetails[i].FOB" class="text-danger"></span>
+ *@                                </td>
+
+                                <td>
+                                    <input asp-for="@Model.PoDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
+@*                                     <span asp-validation-for="@Model.PoDetails[i].Quantity" class="text-danger"></span>
+ *@
+                                </td>
+
+                                <td style="width:55px;">
+                                    <button id="btnremove-@i" type="button" class="btn btn-small btn-danger visible"
+                                            onclick="DeleteItem(this)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <input type="hidden" id="hdnLastIndex" value="1" />
+            
+
+        </div>
+            <div class=" form-group btn-group col-1">
+                <select id="dropdownExRate" asp-for="ExchangeRate" size="1" style="visibility:hidden;" class="form-control" asp-items="ViewBag.ExchangeRate"></select>
+                <div class="form-group invisible">
+                <select id="mySelect" class="form-control" size="1" style="visibility:hidden;" asp-items="ViewBag.ProductsDes"></select>
+                </div>
+
+                <input id="txtValue" class="form-control col-2 invisible" />
+
+                <div id="HiddenDiv" style="visibility:hidden;">
+                    <input asp-for="PoDate" class="form-control" />
+                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencyList"></select>
+                </div>
+            </div>
+
+    
+ 
+         <div class="row form-group btn-group col-12">
+            <div class="col-1"></div>
+
+            <!-- Back Button -->
+            <div class="col-5">
+                <a asp-action="index" class="btn btn-secondary">&nbsp;Back&nbsp;</a>
+            </div>
+
+            <!-- Save Button -->
+            <div class="col-6">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+            <div class="col-1"></div>
+        </div>
+
+   </form>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+      <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function DeleteItem(btn) {
+
+            var table = document.getElementById('ExpTable');
+            var rows = table.getElementsByTagName('tr');
+            if (rows.length == 2) {
+                alert("This row can not be deleted")
+                return;
+            }
+            $(btn).closest('tr').remove();
+        }
+
+        function AddItem(Myvalue) {
+            var table = document.getElementById("ExpTable");
+            var rows = table.getElementsByTagName('tr');
+
+            var rowOuterHtml = rows[rows.length - 1].outerHTML;
+
+            var lastrowIdx = document.getElementById("hdnLastIndex").value;
+            var nextrowIdx = eval(lastrowIdx) + 1;
+            document.getElementById("hdnLastIndex").value = nextrowIdx;
+
+            rowOuterHtml = rowOuterHtml.replaceAll("_" + lastrowIdx + "_", "_" + nextrowIdx + "_");
+            rowOuterHtml = rowOuterHtml.replaceAll("[" + lastrowIdx + "]", "[" + nextrowIdx + "]");
+            rowOuterHtml = rowOuterHtml.replaceAll("-" + lastrowIdx + "-" + nextrowIdx);
+
+            var newRow = table.insertRow();
+            newRow.innerHTML = rowOuterHtml;
+
+            var btnAddID = btn.id;
+            console.log(btnAddID);
+            var btnDeleteid = btnAddID.replaceAll("btnadd", "btnremove");
+            console.log(btnDeleteid);
+
+            var delbtn = document.getElementById(btnDeleteid);
+            delbtn.classList.add("visible");
+            delbtn.classList.remove("invisible");
+
+            var addbtn = document.getElementById(btnAddID);
+            addbtn.classList.remove("visible");
+            addbtn.classList.add("invisible");
+
+        }
+        function getExRate(CurrencyId)
+        {
+            var lstbox = document.getElementById('dropdownExRate');
+            var txtExrate = document.getElementById('txtexchanRate');
+            var items = lstbox.options;
+            for (var i = items.length - 1; i >= 0; i--)
+            {
+                if (items[i].value == CurrencyId.value) { 
+                    txtExrate.value = items[i].text;
+                    return;
+                }
+            }
+            return;   
+        }
+
+
+        function getProductDesc(ProductCode) {
+            var lstbox = document.getElementById('mySelect');
+            var txtExrate = document.getElementById('ProductDes');
+            var items = lstbox.options;
+            for (var i = items.length - 1; i >= 0; i--) {
+                if (items[i].value == ProductCode.value) {
+                    txtExrate.value = items[i].text;
+                    return;
+                }
+            }
+            return;
+        }
+
+
+        document.addEventListener('keydown', ShowSearchableList);
+
+        function setSameWidth(srcElement, desElement) {
+            desElement.style.width = '230px'; // Enclose '230px' in quotes
+        }
+
+        function ShowSearchableList(event) {
+            if (event.target.id.indexOf('ProductCode') < 0) {
+                return;
+            }
+
+            const tid = event.target.id;
+            const txtDescId = tid.replace('ProductCode', 'Description');
+            const txtValue = document.getElementById('txtValue');
+            const txtText = document.getElementById(txtDescId);
+            const txtSearch = event.target;
+            const lstBox = document.getElementById("mySelect");
+
+            $(txtSearch).after($(lstBox).show('slow')); // jQuery for showing lstBox
+
+            if (event.keyCode === 13 || event.keyCode === 9) {
+                txtSearch.value = txtValue.value;
+                lstBox.style.visibility = "hidden";
+                const divlst = document.getElementById("HiddenDiv");
+                $(divlst).after($(lstBox).show('slow')); // jQuery for showing lstBox
+
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    txtSearch.focus();
+                }
+                return;
+            }
+
+            setSameWidth(txtSearch, lstBox);
+            lstBox.style.visibility = "visible";
+            txtValue.value = "";
+            txtText.value = "";
+
+            const items = lstBox.options;
+            for (let i = items.length - 1; i >= 0; i--) {
+                if (items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > -1) {
+                    items[i].style.display = 'block';
+                    items[i].selected = true;
+                    txtValue.value = items[i].value;
+                    txtText.value = items[i].text;
+                } else {
+                    items[i].style.display = 'none';
+                    items[i].selected = false;
+                }
+            }
+        }
+
+
+        // document.addEventListener('keydown', ShowSearchableList);
+        // function setSameWidth(srcElement, desElement) {
+        //     desElement.style.width = 230px;
+        // }
+
+        // function ShowSearchableList(event)
+        // {
+        //     if (event.target.id.indexOf('ProductCode') < 0) {
+        //     return;
+        //     }
+        //     var tid = event.target.id;
+        //     var txtDescId = tid.replaceAll('ProductCode', 'Description');
+        //     var txtValue = document.getElementById('txtValue');
+        //     var txtText = document.getElementById(txtDescId)
+        //     var txtSearch = event.target;
+        //     var lstBox = document.getElementById("mySelect");
+        //     $(txtSeach).after($(lstBox).show('slow'));
+        //     if (event.keyCode === 13 || event.keyCode == 9) {
+        //         txtSearch.value = txtValue.value;
+        //         lstBox.style.visibility = "hidden";
+        //         var divlst = document.getElementById("HiddenDiv");
+        //         $(divlst).after($(lstBox).show('slow'));
+        //         if (event.keyCode === 13) {
+        //             event.preventDefault();
+        //             txtSearch.focus();
+        //             return;
+        //         } else
+        //             return;
+        //     }
+        //     setSameWidth(txtSearch, lstBox);
+        //     lstBox.style.visibility = "visible";
+        //     txtValue.value = "";
+        //     txtText.value = "";
+        //     var items = lstBox.options;
+        //     for (var i = items.length - 1; i >= 0; i--) {
+        //         if (items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > - 1) {
+        //             items[i].style.display = 'block';
+        //             items[i].selected = true;
+        //             txtValue.value = items[i].value;
+        //             txtText.value = items[i].text;
+
+        //         } else {
+        //             items[i].style.display = 'none';
+        //             items[i].selected = false;
+        //         }
+        //     }
+        //}
+
+
+
+
+        function CalcolTotal()
+        {
+            var x = document.getElementById('QtyTotal');
+            var totalQty = 0;
+            var Amount = 0;
+            var totalAmount = 0;
+            var txtExChangeRate = eval(document.getElementById('txtExChangeRate').value);
+            var i;
+            for (i = 0; i < x.length; i++)
+            {
+                var idOfIsDelete = i + "__IsDeleted";
+                var idOfPrice = i + "__PrcInBaseCur";
+                var idOfFob = i + "__Fob";
+                var idOfTotal = i + "__Total";
+                var idIsDelId = document.querySelector("[id$'" + idOfIsDelete + "']").id;
+                var pricetxtId = document.querySelector("[id$'" + idOfPrice + "']").id;
+                var txtfobId = document.querySelector("[id$'" + idOfFob + "']").id;
+                var txtTotalId = document.querySelector("[id$'" + idOfTotal + "']").id;
+                if (document.getElementById(idIsDelId).value != "true") {
+                    totalQty = totalQty = eval(x[i].value);
+                    var txtTotal = document.getElementById(txtTotalId);
+                    var txtPrice = document.getElementById(pricetxtId);
+                    var txtFob = document.getElementById(txtfobId);
+                    txtPrice.value = txtExChangeRate * eval(txtFob.value);
+                    txtTotal.value = eval(x[i].value) * txtPrice.value;
+                    totalAmount = eval(totalAmount) + eval(txtTotal.value);
+                }
+            }
+            document.getElementById('totalQty').value = totalQty;
+            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+            return;
+        }
+
+        document.addEventListener()
+
+
+    </script>
+} 

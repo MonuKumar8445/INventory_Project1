@@ -1,0 +1,50 @@
+﻿@page
+@using Inventory_Project1.Areas.Identity.Pages.Account;
+
+@model LoginModel;
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+ <div class="container IndexDiv">
+     <div class="row">
+        <div class="container CenteredContainer text-center col-3">     
+            <form id="account" method="post">
+                <h5>Welcome</h5> 
+              <hr/>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">                  
+                    <input asp-for="Input.UserName" class="form-control" placeholder="Email / UserName"/>                    
+                </div>
+                <hr/>
+                <div class="form-group">               
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />                    
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe"  style="width:auto;"/>
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" class="btn btn-danger text-white" value="Log In"/>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword" >Forgot your password?</a>
+                    </p>                
+               
+                </div>
+            </form>  
+         </div>
+     </div>
+ </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
