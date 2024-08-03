@@ -81,9 +81,6 @@
 
             </div>
         </div>
-
-
-
    
             <div class="col-12">
                 <table class="table table-sm CodesTable border ExpTable " id="ExpTable" >
@@ -120,7 +117,7 @@
                                 </td>
 
                                 <td>
-                                <input asp-for="@Model.PoDetails[i].Quantity" class="form-control QtyTotal" name="Qty" onclick="CalcolTotal(this);" />
+                                <input asp-for="@Model.PoDetails[i].Quantity" class="form-control QtyTotal" name="Qty"  onclick="CalcolTotal(this);" />
 @*                                     <span asp-validation-for="@Model.PoDetails[i].Quantity" class="text-danger"></span>
  *@
                                 </td>
@@ -155,22 +152,22 @@
                       <div class="col-4">
                         <div class="input-group mb-3 col align-self-end">
                             <span class="input-group-text" style=" font-weight: bold">Total Quantity</span>
-                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                            <input type="number" class="form-control text-end" id="totalQty" name="totalQty" onchange="GetTotalQty();" />
                         </div>
                       </div>
                       <div class="col-2"></div>
                       <div class="col-4">
                         <div class="input-group mb-3 col align-self-end">
                             <span class="input-group-text" style=" font-weight: bold">Total</span>
-                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                            <input type="number" class="form-control text-end"  id="totalAmount" name="total"  />
                         </div>
                         <div class="input-group mb-3 col align-self-end">
                             <span class="input-group-text" style=" font-weight: bold">GST</span>
-                            <input type="number" class="form-control text-end" AmountTotal" name="amount" />
+                            <input type="number" class="form-control text-end" name="gst" id="gst" onchange="GetTotal();" />
                         </div>
                         <div class="input-group mb-3 col align-self-end">
                             <span class="input-group-text" style=" font-weight: bold">Net Amount</span>
-                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                            <input type="number" class="form-control text-end" name="netamount" id="netamount" readonly />
                         </div>
                       </div>
                    </div>
@@ -240,6 +237,8 @@
                 return;
             }
             $(btn).closest('tr').remove();
+            GetTotal();
+            GetTotalQty();
         }
 
         function AddItem(Myvalue) {
@@ -271,6 +270,8 @@
             var addbtn = document.getElementById(btnAddID);
             addbtn.classList.remove("visible");
             addbtn.classList.add("invisible");
+
+          
 
         }
 
@@ -452,16 +453,57 @@
         // document.addEventListener()
 
 
-          function CalcolTotal(v) {
+          function BtnDelete(s) {
+              $(s).parent().parent().remove();
+          }
+
+        function CalcolTotal(v) {
 
               var index = $(v).parent().parent().index();
-            var qty = document.getElementsByName("Qty")[index].value;
+              var qty = document.getElementsByName("Qty")[index].value;
               var price = document.getElementsByName("price")[index].value;
-
               var amount = qty * price;
             document.getElementsByName("amount")[index].value = amount;
 
-        } 
+            GetTotal();
+            GetTotalQty();
+        }
+
+        var sum = 0;
+        function GetTotal() {
+            var totalamts = document.getElementsByName("amount");
+            sum = 0; // Reset sum before calculating the total
+            for (let index = 0; index < totalamts.length; index++) {
+                var amount = parseFloat(totalamts[index].value) || 0; // Convert value to a number and handle NaN
+                sum += amount; // Add amount to sum
+            }
+            document.getElementById("totalAmount").value = sum; // Update the totalAmount element
+
+            var gsts = document.getElementById("gst").value; 
+            var net = +(sum) + + (gsts);
+            document.getElementById("netamount").value = net;
+            
+        }
+
+        var sum = 0;
+        function GetTotalQty() {
+            // Get all elements with the name 'Qty'
+            var qtyElements = document.getElementsByName("Qty");
+            // Reset sum before calculating the total
+            sum = 0;
+            // Loop through the NodeList of elements
+            for (let index = 0; index < qtyElements.length; index++) {
+                // Convert the value to a number and handle NaN
+                var qty = parseFloat(qtyElements[index].value) || 0;
+                // Add qty to sum
+                sum += qty;
+            }
+            // Get the element with the name 'totalQty' and set its value to the sum
+            var totalQtyElement = document.getElementsByName("totalQty")[0];
+            if (totalQtyElement) {
+                totalQtyElement.value = sum;
+            }
+        }
 
     </script>
 }  
