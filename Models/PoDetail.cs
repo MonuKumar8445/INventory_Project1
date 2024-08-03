@@ -41,5 +41,8 @@ namespace INventory_Project1.Models
         public bool IsDeleted { get; set; } = false;
         [NotMapped]
         public decimal Total { get; set; }
+        public decimal Amounts { get; set; }
+        public decimal Price { get; set; }
+
     }
 }

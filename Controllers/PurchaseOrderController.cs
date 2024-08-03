@@ -47,7 +47,7 @@ namespace INventory_Project1.Controllers
             ViewBag.CurrencyList = GetPoCurrencies();
             ViewBag.CurrencyList = GetBaseCurrencies();
             ViewBag.ExchangeRate = GetExchangeRate();
-            ViewBag.ProductsDes = GetProductsDes();
+            //ViewBag.ProductList = GetProductsDes();
             //ViewBag.UnitNames = GetUnitNames();
             poHeader.PoNumber = _purchaseOrderRepo.GetNewPoNumber();
             return View(poHeader);
@@ -166,35 +166,64 @@ namespace INventory_Project1.Controllers
             TempData["SuccessMessage"] = "PoHeader " + poHeader.PoNumber + " Deleted Successfully";
             return RedirectToAction(nameof(Index), new { pg = currentPage });
         }
+
+
+
+
         private List<SelectListItem> GetProducts()
         {
-            var IsProducts = new List<SelectListItem>();
-            PaginatedList<Product> Product = _productRepo.GetItems("Name", sortOrder: SortOrder.Ascending, "", 1, 1000);
-            IsProducts = Product.Select(ut => new SelectListItem()
+            var products = _productRepo.GetItems("Name", sortOrder: SortOrder.Ascending, "", 1, 1000);
+            var productList = products.Select(p => new SelectListItem
             {
-                Value = ut.Code.ToString(),
-                Text = ut.Code,
+                Value = p.Code.ToString(),
+                Text = p.Code
             }).ToList();
-            var deftItem = new SelectListItem()
+
+            productList.Insert(0, new SelectListItem
             {
                 Value = "",
                 Text = "Product"
-            };
-            IsProducts.Insert(0, deftItem);
-            return IsProducts;
-            
+            });
+
+            return productList;
         }
-        private List<SelectListItem> GetProductsDes()
-        {
-            var IsProducts = new List<SelectListItem>();
-            PaginatedList<Product> Product = _productRepo.GetItems("Name", sortOrder: SortOrder.Ascending, "", 1, 1000);
-            IsProducts = Product.Select(ut => new SelectListItem()
-            {
-                Value = ut.Code.ToString(),
-                Text = ut.Description,
-            }).ToList();
-            return IsProducts;
-        }
+
+
+
+
+
+
+
+
+        //private List<SelectListItem> GetProducts()
+        //{
+        //    var IsProducts = new List<SelectListItem>();
+        //    PaginatedList<Product> Product = _productRepo.GetItems("Name", sortOrder: SortOrder.Ascending, "", 1, 1000);
+        //    IsProducts = Product.Select(ut => new SelectListItem()
+        //    {
+        //        Value = ut.Code.ToString(),
+        //        Text = ut.Code,
+        //    }).ToList();
+        //    var deftItem = new SelectListItem()
+        //    {
+        //        Value = "",
+        //        Text = "Product"
+        //    };
+        //    IsProducts.Insert(0, deftItem);
+        //    return IsProducts;
+
+        //}
+        //private List<SelectListItem> GetProductsDes()
+        //{
+        //    var IsProducts = new List<SelectListItem>();
+        //    PaginatedList<Product> Product = _productRepo.GetItems("Name", sortOrder: SortOrder.Ascending, "", 1, 1000);
+        //    IsProducts = Product.Select(ut => new SelectListItem()
+        //    {
+        //        Value = ut.Code.ToString(),
+        //        Text = ut.Description,
+        //    }).ToList();
+        //    return IsProducts;
+        //}
         private List<SelectListItem> GetSuppliers()
         {
             var IsSuppliers = new List<SelectListItem>();

@@ -9,72 +9,81 @@
             <h5>Prouct - Create</h5>
         </div>
    <form id="CodeByForm" asp-action="Create" class="d-grid" enctype="multipart/form-data" style=" padding: 25px; border: 15px solid green; border-radius:5px;">
-       <div class="btn-group col-12">
-     
-          <!-- Validation Summary -->
-           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-  
-           <!-- First set of form elements -->
-           <div class="row col-11 ml-2">
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="PoNumber" class="control-label"></label>
-                </div>
-                <div class="form-group col-3">
-                        <input asp-for="PoNumber" class="form-control" />
-                        <span asp-validation-for="PoNumber" class="text-danger"></span>
-                </div>
 
-                <div class="form-group col-2"></div>
+        <div class="container">
+            <div class="row g-5">
+                <div class="btn-group col-12">
 
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="SupplierId" class="control-label"></label>
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- First set of form elements -->
+                    <div class="row col-11 ml-2 g-3">
+                        <div class="form-group col-2" style=" font-weight: bold">
+                            <label asp-for="PoNumber" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input asp-for="PoNumber" class="form-control" />
+                            <span asp-validation-for="PoNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2"></div>
+
+                        <div class="form-group col-2" style=" font-weight: bold">
+                            <label asp-for="SupplierId" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                            <span asp-validation-for="SupplierId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Second set of form elements -->
+
+                        <div class="form-group col-2" style=" font-weight: bold " p-2>
+                            <label asp-for="PoCurrency" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.CurrencyList" onclick="getExRate(this);"></select>
+                            <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2"></div>
+
+                        <div class="form-group col-2" style=" font-weight: bold">
+                            <label asp-for="ExchangeRate" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input asp-for="ExchangeRate" class="form-control" readonly id="txtexchanRate" />
+                            <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                        </div>
+
+                        <!-- Third set of form elements -->
+                        <div class="form-group col-2" style=" font-weight: bold">
+                            <label asp-for="QuotationDate" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input asp-for="QuotationDate" class="form-control" />
+                            <span asp-validation-for="QuotationDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2"></div>
+
+                        <div class="form-group col-2" style=" font-weight: bold">
+                            <label asp-for="QuotationNo" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input asp-for="QuotationNo" class="form-control" />
+                            <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                        </div>
+
                     </div>
-                <div class="form-group col-3">
-                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
-                        <span asp-validation-for="SupplierId" class="text-danger"></span>
-                </div>
-           
-                <!-- Second set of form elements -->
-
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="PoCurrency" class="control-label"></label>
-                    </div>
-                <div class="form-group col-3">
-                        <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.CurrencyList" onclick="getExRate(this);"></select>
-                        <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-2"></div>
+            </div>
+        </div>
 
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="ExchangeRate" class="control-label"></label>
-                    </div>
-                <div class="form-group col-3">
-                        <input asp-for="ExchangeRate" class="form-control" readonly id="txtexchanRate" />
-                        <span asp-validation-for="ExchangeRate" class="text-danger"></span>
-                </div>
-               
-                    <!-- Third set of form elements -->
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="QuotationDate" class="control-label"></label>
-                </div>
-                <div class="form-group col-3">
-                        <input asp-for="QuotationDate" class="form-control" />
-                        <span asp-validation-for="QuotationDate" class="text-danger"></span>
-                </div>
 
-                <div class="form-group col-2"></div>
 
-                <div class="form-group col-2" style=" font-weight: bold">
-                        <label asp-for="QuotationNo" class="control-label"></label>
-                    </div>
-                <div class="form-group col-3">
-                        <input asp-for="QuotationNo" class="form-control" />
-                        <span asp-validation-for="QuotationNo" class="text-danger"></span>
-                </div>
-
-           </div>
-       </div>
    
             <div class="col-12">
                 <table class="table table-sm CodesTable border ExpTable " id="ExpTable" >
@@ -83,10 +92,10 @@
                             <th>Product Code</th>
                             <th>Description</th>   
                             <th>Quantity</th>
-                            <th>FOB</th>
-                            <th>PrcInBaseCur</th>
+                           
+                            <th>Price</th>
                             <th>UnitName</th>
-                            <th>Total</th>
+                            <th>Amounts</th>
 
                             <th style="width:75px;">
                                 <button id='MyvalueaddExperience' type="button" class="btn  btn-sm  btn-secondary visible"
@@ -103,39 +112,29 @@
                         {
                             <tr>
                                 <td>
-@*                                     <input asp-for="@Model.PoDetails[i].ProductCode" class="form-control" />
-                            *@           <select asp-for="@Model.PoDetails[i].ProductCode" asp-items="ViewBag.ProductList" class="form-control" id="ProductDes" ></select>
-
+                                   <input asp-for="@Model.PoDetails[i].ProductCode"  class="form-control"  />
                                 </td>
 
                                 <td>
-                                <input asp-for="@Model.PoDetails[i].Description" class="form-control form-control-plaitext"  onclick="getProductDesc(this);"  readonly />
-
+                                   <input asp-for="@Model.PoDetails[i].Description" class="form-control form-control-plaitext"  readonly />
                                 </td>
+
                                 <td>
-                                    <input asp-for="@Model.PoDetails[i].Quantity" class="form-control QtyTotal" />
+                                <input asp-for="@Model.PoDetails[i].Quantity" class="form-control QtyTotal" name="Qty" onclick="CalcolTotal(this);" />
 @*                                     <span asp-validation-for="@Model.PoDetails[i].Quantity" class="text-danger"></span>
  *@
                                 </td>
                                 <td>
-                                    <input asp-for="@Model.PoDetails[i].FOB" class="form-control FobTotal" />
-@*                                     <span asp-validation-for="@Model.PoDetails[i].FOB" class="text-danger"></span>
- *@                                </td>
-                                <td>
-                                    <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control form-control-plaintext PriceTotal" readonly />
-@*                                     <span asp-validation-for="@Model.PoDetails[i].PrcInBaseCur" class="text-danger"></span>
- *@                                </td>
+                                  <input asp-for="@Model.PoDetails[i].Price" class="form-control" name="price" onclick="CalcolTotal(this);" />                   
+                                </td>
                                 <td>
                                     <input asp-for="@Model.PoDetails[i].UnitName" class="form-control" />
-@*                                     <span asp-validation-for="@Model.PoDetails[i].FOB" class="text-danger"></span>
- *@                                </td>
-
+                                </td>
                                 <td>
-                                    <input asp-for="@Model.PoDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
+                                    <input asp-for="@Model.PoDetails[i].Amounts" class="form-control" AmountTotal" name="amount" readonly />
 @*                                     <span asp-validation-for="@Model.PoDetails[i].Quantity" class="text-danger"></span>
  *@
                                 </td>
-
                                 <td style="width:55px;">
                                     <button id="btnremove-@i" type="button" class="btn btn-small btn-danger visible"
                                             onclick="DeleteItem(this)">
@@ -146,18 +145,53 @@
                         }
                     </tbody>
                 </table>
+                <div class="container" style="background-color:blueviolet; text-align:center;">
+                   <div class="row">
+                      <div class="col-1">
+                        <input type="button" value="Print" class="btn btn-primary" />
+                      </div>
+                      <div class="col-1"></div>
 
+                      <div class="col-4">
+                        <div class="input-group mb-3 col align-self-end">
+                            <span class="input-group-text" style=" font-weight: bold">Total Quantity</span>
+                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                        </div>
+                      </div>
+                      <div class="col-2"></div>
+                      <div class="col-4">
+                        <div class="input-group mb-3 col align-self-end">
+                            <span class="input-group-text" style=" font-weight: bold">Total</span>
+                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                        </div>
+                        <div class="input-group mb-3 col align-self-end">
+                            <span class="input-group-text" style=" font-weight: bold">GST</span>
+                            <input type="number" class="form-control text-end" AmountTotal" name="amount" />
+                        </div>
+                        <div class="input-group mb-3 col align-self-end">
+                            <span class="input-group-text" style=" font-weight: bold">Net Amount</span>
+                            <input type="number" class="form-control text-end" AmountTotal" name="amount" readonly />
+                        </div>
+                      </div>
+                   </div>
+
+                </div>
                 <input type="hidden" id="hdnLastIndex" value="1" />
-            
-
-        </div>
+            </div>
             <div class=" form-group btn-group col-1">
                 <select id="dropdownExRate" asp-for="ExchangeRate" size="1" style="visibility:hidden;" class="form-control" asp-items="ViewBag.ExchangeRate"></select>
-                <div class="form-group invisible">
+                @* <div class="form-group invisible">
                 <select id="mySelect" class="form-control" size="1" style="visibility:hidden;" asp-items="ViewBag.ProductsDes"></select>
-                </div>
+                </div> *@
 
-                <input id="txtValue" class="form-control col-2 invisible" />
+
+                <div class="form-group invisible">
+                   <select id="mySelect" class="form-control" size="5" style="visibility:collapse;" asp-items="ViewBag.ProductList">
+                   </select>
+
+                 <input id="txtValue" class="form-control col-2 invisible" />
+
+                </div>
 
                 <div id="HiddenDiv" style="visibility:hidden;">
                     <input asp-for="PoDate" class="form-control" />
@@ -165,9 +199,8 @@
                 </div>
             </div>
 
-    
  
-         <div class="row form-group btn-group col-12">
+        <div class="row form-group btn-group col-12">
             <div class="col-1"></div>
 
             <!-- Back Button -->
@@ -240,6 +273,7 @@
             addbtn.classList.add("invisible");
 
         }
+
         function getExRate(CurrencyId)
         {
             var lstbox = document.getElementById('dropdownExRate');
@@ -256,18 +290,18 @@
         }
 
 
-        function getProductDesc(ProductCode) {
-            var lstbox = document.getElementById('mySelect');
-            var txtExrate = document.getElementById('ProductDes');
-            var items = lstbox.options;
-            for (var i = items.length - 1; i >= 0; i--) {
-                if (items[i].value == ProductCode.value) {
-                    txtExrate.value = items[i].text;
-                    return;
-                }
-            }
-            return;
-        }
+        // function getProductDesc(ProductCode) {
+        //     var lstbox = document.getElementById('mySelect');
+        //     var txtExrate = document.getElementById('ProductDes');
+        //     var items = lstbox.options;
+        //     for (var i = items.length - 1; i >= 0; i--) {
+        //         if (items[i].value == ProductCode.value) {
+        //             txtExrate.value = items[i].text;
+        //             return;
+        //         }
+        //     }
+        //     return;
+        // }
 
 
         document.addEventListener('keydown', ShowSearchableList);
@@ -284,7 +318,7 @@
             const tid = event.target.id;
             const txtDescId = tid.replace('ProductCode', 'Description');
             const txtValue = document.getElementById('txtValue');
-            const txtText = document.getElementById(txtDescId);
+            const txtText = document.getElementById('txtDescId');
             const txtSearch = event.target;
             const lstBox = document.getElementById("mySelect");
 
@@ -322,93 +356,112 @@
             }
         }
 
-
         // document.addEventListener('keydown', ShowSearchableList);
+
         // function setSameWidth(srcElement, desElement) {
-        //     desElement.style.width = 230px;
+        //     desElement.style.width = '230px'; // Enclose '230px' in quotes
         // }
 
-        // function ShowSearchableList(event)
-        // {
-        //     if (event.target.id.indexOf('ProductCode') < 0) {
-        //     return;
+        // function ShowSearchableList(event) {
+        //     const target = event.target;
+
+        //     if (target.id.indexOf('ProductCode') < 0) {
+        //         return;
         //     }
-        //     var tid = event.target.id;
-        //     var txtDescId = tid.replaceAll('ProductCode', 'Description');
-        //     var txtValue = document.getElementById('txtValue');
-        //     var txtText = document.getElementById(txtDescId)
-        //     var txtSearch = event.target;
-        //     var lstBox = document.getElementById("mySelect");
-        //     $(txtSeach).after($(lstBox).show('slow'));
-        //     if (event.keyCode === 13 || event.keyCode == 9) {
+
+        //     const tid = target.id;
+        //     const txtDescId = tid.replace('ProductCode', 'Description');
+        //     const txtValue = document.getElementById('txtValue');
+        //     const txtText = document.getElementById(txtDescId);
+        //     const txtSearch = target;
+        //     const lstBox = document.getElementById("mySelect");
+
+        //     if (event.keyCode === 13 || event.keyCode === 9) {
         //         txtSearch.value = txtValue.value;
         //         lstBox.style.visibility = "hidden";
-        //         var divlst = document.getElementById("HiddenDiv");
-        //         $(divlst).after($(lstBox).show('slow'));
+
         //         if (event.keyCode === 13) {
         //             event.preventDefault();
         //             txtSearch.focus();
-        //             return;
-        //         } else
-        //             return;
+        //         }
+        //         return;
         //     }
+
         //     setSameWidth(txtSearch, lstBox);
         //     lstBox.style.visibility = "visible";
         //     txtValue.value = "";
         //     txtText.value = "";
-        //     var items = lstBox.options;
-        //     for (var i = items.length - 1; i >= 0; i--) {
-        //         if (items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > - 1) {
+
+        //     const items = lstBox.options;
+        //     for (let i = items.length - 1; i >= 0; i--) {
+        //         if (items[i].text.toLowerCase().includes(txtSearch.value.toLowerCase())) {
         //             items[i].style.display = 'block';
         //             items[i].selected = true;
         //             txtValue.value = items[i].value;
         //             txtText.value = items[i].text;
-
         //         } else {
         //             items[i].style.display = 'none';
         //             items[i].selected = false;
         //         }
         //     }
-        //}
+        // }
 
 
 
 
-        function CalcolTotal()
-        {
-            var x = document.getElementById('QtyTotal');
-            var totalQty = 0;
-            var Amount = 0;
-            var totalAmount = 0;
-            var txtExChangeRate = eval(document.getElementById('txtExChangeRate').value);
-            var i;
-            for (i = 0; i < x.length; i++)
-            {
-                var idOfIsDelete = i + "__IsDeleted";
-                var idOfPrice = i + "__PrcInBaseCur";
-                var idOfFob = i + "__Fob";
-                var idOfTotal = i + "__Total";
-                var idIsDelId = document.querySelector("[id$'" + idOfIsDelete + "']").id;
-                var pricetxtId = document.querySelector("[id$'" + idOfPrice + "']").id;
-                var txtfobId = document.querySelector("[id$'" + idOfFob + "']").id;
-                var txtTotalId = document.querySelector("[id$'" + idOfTotal + "']").id;
-                if (document.getElementById(idIsDelId).value != "true") {
-                    totalQty = totalQty = eval(x[i].value);
-                    var txtTotal = document.getElementById(txtTotalId);
-                    var txtPrice = document.getElementById(pricetxtId);
-                    var txtFob = document.getElementById(txtfobId);
-                    txtPrice.value = txtExChangeRate * eval(txtFob.value);
-                    txtTotal.value = eval(x[i].value) * txtPrice.value;
-                    totalAmount = eval(totalAmount) + eval(txtTotal.value);
-                }
-            }
-            document.getElementById('totalQty').value = totalQty;
-            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
-            return;
-        }
 
-        document.addEventListener()
 
+
+       
+
+
+
+        // function CalcolTotal()
+        // {
+        //     var x = document.getElementById('QtyTotal');
+        //     var totalQty = 0;
+        //     var Amount = 0;
+        //     var totalAmount = 0;
+        //     var txtExChangeRate = eval(document.getElementById('txtExChangeRate').value);
+        //     var i;
+        //     for (i = 0; i < x.length; i++)
+        //     {
+        //         var idOfIsDelete = i + "__IsDeleted";
+        //         var idOfPrice = i + "__PrcInBaseCur";
+        //         var idOfFob = i + "__Fob";
+        //         var idOfTotal = i + "__Total";
+        //         var idIsDelId = document.querySelector("[id$'" + idOfIsDelete + "']").id;
+        //         var pricetxtId = document.querySelector("[id$'" + idOfPrice + "']").id;
+        //         var txtfobId = document.querySelector("[id$'" + idOfFob + "']").id;
+        //         var txtTotalId = document.querySelector("[id$'" + idOfTotal + "']").id;
+        //         if (document.getElementById(idIsDelId).value != "true") {
+        //             totalQty = totalQty = eval(x[i].value);
+        //             var txtTotal = document.getElementById(txtTotalId);
+        //             var txtPrice = document.getElementById(pricetxtId);
+        //             var txtFob = document.getElementById(txtfobId);
+        //             txtPrice.value = txtExChangeRate * eval(txtFob.value);
+        //             txtTotal.value = eval(x[i].value) * txtPrice.value;
+        //             totalAmount = eval(totalAmount) + eval(txtTotal.value);
+        //         }
+        //     }
+        //     document.getElementById('totalQty').value = totalQty;
+        //     document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+        //     return;
+        // }
+
+        // document.addEventListener()
+
+
+          function CalcolTotal(v) {
+
+              var index = $(v).parent().parent().index();
+            var qty = document.getElementsByName("Qty")[index].value;
+              var price = document.getElementsByName("price")[index].value;
+
+              var amount = qty * price;
+            document.getElementsByName("amount")[index].value = amount;
+
+        } 
 
     </script>
-} 
+}  
